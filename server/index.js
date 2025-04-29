@@ -28,7 +28,8 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // Set your frontend origin
+    // origin: "http://localhost:5173", // Set your frontend origin
+    origin: "https://edunexa-70gn.onrender.com", // Set your frontend origin
     credentials: true, // Allow cookies and authentication headers
   })
 );
