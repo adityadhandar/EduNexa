@@ -113,10 +113,61 @@ const Navbar = () => {
 
 export default Navbar;
 
-// Mobile View
-const MobileNavbar = ({ user }) => {
+// // Mobile View
+// const MobileNavbar = ({ user }) => {
+//   const navigate = useNavigate();
+  
+//   const role = "instructor";
+//   return (
+//     <Sheet>
+//       <SheetTrigger asChild>
+//         <Button
+//           size="icon"
+//           className="rounded-full hover:bg-gray-200"
+//           variant="outline"
+//         >
+//           <Menu />
+//         </Button>
+//       </SheetTrigger>
+//       <SheetContent className="flex flex-col">
+//         <SheetHeader className="flex flex-row items-center justify-between mt-2">
+//           <SheetTitle>
+//             <Link to="/">EduNexa</Link>
+//           </SheetTitle>
+//           <DarkMode />
+//         </SheetHeader>
+//         <Separator className="mr-2" />
+//         <nav className="flex flex-col space-y-4">
+//           <Link to="/my-learning">My Learning</Link>
+//           <Link to="/profile">Edit Profile</Link>
+//           <Link to="/login">Log Out</Link>
+//         </nav>
+//         {user?.role === "instructor" && (
+//           <SheetFooter>
+//             <SheetClose asChild>
+//               <Button
+//                 type="submit"
+//                 onClick={() => navigate("/admin/dashboard")}
+//               >
+//                 Dashboard
+//               </Button>
+//             </SheetClose>
+//           </SheetFooter>
+//         )}
+//       </SheetContent>
+//     </Sheet>
+//   );
+// };
+
+
+
+const MobileNavbar = ({ user, logoutHandler }) => {
   const navigate = useNavigate();
-  const role = "instructor";
+
+  const handleLogout = async () => {
+    await logoutHandler(); // Calls API
+  };
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -139,7 +190,7 @@ const MobileNavbar = ({ user }) => {
         <nav className="flex flex-col space-y-4">
           <Link to="/my-learning">My Learning</Link>
           <Link to="/profile">Edit Profile</Link>
-          <Link to="/login">Log Out</Link>
+          <button onClick={handleLogout}>Log Out</button>
         </nav>
         {user?.role === "instructor" && (
           <SheetFooter>
