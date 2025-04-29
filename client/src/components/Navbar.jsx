@@ -114,60 +114,22 @@ const Navbar = () => {
 export default Navbar;
 
 // // Mobile View
-// const MobileNavbar = ({ user }) => {
-//   const navigate = useNavigate();
-  
-//   const role = "instructor";
-//   return (
-//     <Sheet>
-//       <SheetTrigger asChild>
-//         <Button
-//           size="icon"
-//           className="rounded-full hover:bg-gray-200"
-//           variant="outline"
-//         >
-//           <Menu />
-//         </Button>
-//       </SheetTrigger>
-//       <SheetContent className="flex flex-col">
-//         <SheetHeader className="flex flex-row items-center justify-between mt-2">
-//           <SheetTitle>
-//             <Link to="/">EduNexa</Link>
-//           </SheetTitle>
-//           <DarkMode />
-//         </SheetHeader>
-//         <Separator className="mr-2" />
-//         <nav className="flex flex-col space-y-4">
-//           <Link to="/my-learning">My Learning</Link>
-//           <Link to="/profile">Edit Profile</Link>
-//           <Link to="/login">Log Out</Link>
-//         </nav>
-//         {user?.role === "instructor" && (
-//           <SheetFooter>
-//             <SheetClose asChild>
-//               <Button
-//                 type="submit"
-//                 onClick={() => navigate("/admin/dashboard")}
-//               >
-//                 Dashboard
-//               </Button>
-//             </SheetClose>
-//           </SheetFooter>
-//         )}
-//       </SheetContent>
-//     </Sheet>
-//   );
-// };
-
-
-
-const MobileNavbar = ({ user, logoutHandler }) => {
+const MobileNavbar = ({ user }) => {
+  const [logoutUser, { data, isSuccess }] = useLogoutUserMutation();
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
-    await logoutHandler(); // Calls API
+  const logoutHandler = async () => {
+    await logoutUser();
   };
 
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(data.message || "User log out.");
+      navigate("/login");
+    }
+  }, [isSuccess]);
+  
+  const role = "instructor";
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -190,7 +152,7 @@ const MobileNavbar = ({ user, logoutHandler }) => {
         <nav className="flex flex-col space-y-4">
           <Link to="/my-learning">My Learning</Link>
           <Link to="/profile">Edit Profile</Link>
-          <button onClick={handleLogout}>Log Out</button>
+          <Link onClick={logoutHandler}>Log Out</Link>
         </nav>
         {user?.role === "instructor" && (
           <SheetFooter>
@@ -208,3 +170,53 @@ const MobileNavbar = ({ user, logoutHandler }) => {
     </Sheet>
   );
 };
+
+
+
+// const MobileNavbar = ({ user, logoutHandler }) => {
+//   const navigate = useNavigate();
+
+//   const handleLogout = async () => {
+//     await logoutHandler(); // Calls API
+//   };
+
+//   return (
+//     <Sheet>
+//       <SheetTrigger asChild>
+//         <Button
+//           size="icon"
+//           className="rounded-full hover:bg-gray-200"
+//           variant="outline"
+//         >
+//           <Menu />
+//         </Button>
+//       </SheetTrigger>
+//       <SheetContent className="flex flex-col">
+//         <SheetHeader className="flex flex-row items-center justify-between mt-2">
+//           <SheetTitle>
+//             <Link to="/">EduNexa</Link>
+//           </SheetTitle>
+//           <DarkMode />
+//         </SheetHeader>
+//         <Separator className="mr-2" />
+//         <nav className="flex flex-col space-y-4">
+//           <Link to="/my-learning">My Learning</Link>
+//           <Link to="/profile">Edit Profile</Link>
+//           <button onClick={handleLogout}>LogOut</button>
+//         </nav>
+//         {user?.role === "instructor" && (
+//           <SheetFooter>
+//             <SheetClose asChild>
+//               <Button
+//                 type="submit"
+//                 onClick={() => navigate("/admin/dashboard")}
+//               >
+//                 Dashboard
+//               </Button>
+//             </SheetClose>
+//           </SheetFooter>
+//         )}
+//       </SheetContent>
+//     </Sheet>
+//   );
+// };
